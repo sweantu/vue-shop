@@ -13,3 +13,15 @@ export const registerUser = async (userData) => {
     }
   }
 }
+
+export const loginUser = async (credentials) => {
+  try {
+    const { data } = await axios.post(`${API_BASE_URL}/users/login`, credentials)
+    return { data, error: null }
+  } catch (error) {
+    return {
+      data: null,
+      error: error.response?.data?.detail || 'Login failed',
+    }
+  }
+}
