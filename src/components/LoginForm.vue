@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue'
 import { loginUser } from '../services/api'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const formData = ref({
   username: '',
   password: ''
@@ -37,6 +39,7 @@ const handleSubmit = async (e) => {
       successMessage.value = 'Login successful!'
       // Store token or user data in localStorage/store
       localStorage.setItem('token', data.access_token)
+      router.push('/')
     }
     isLoading.value = false
   }
@@ -70,7 +73,7 @@ const handleSubmit = async (e) => {
         </div>
       </div>
 
-      <form class="mt-8 space-y-6" @submit="handleSubmit">
+      <form class="mt-8 space-y-4" @submit="handleSubmit">
         <div class="rounded-md shadow-sm space-y-4">
           <div>
             <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
@@ -88,6 +91,14 @@ const handleSubmit = async (e) => {
             <p v-if="errors.password" class="mt-1 text-sm text-red-600">{{ errors.password }}</p>
           </div>
         </div>
+
+        <div class="text-right text-sm">
+          Don't have an account?
+          <router-link to="/auth/register" class=" text-indigo-600 hover:text-indigo-500">
+            Register
+          </router-link>
+        </div>
+
 
         <div>
           <button type="submit" :disabled="isLoading"

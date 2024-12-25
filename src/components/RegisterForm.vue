@@ -98,7 +98,7 @@ const handleSubmit = async (e) => {
         </div>
       </div>
 
-      <form class="mt-8 space-y-6" @submit="handleSubmit">
+      <form class="mt-8 space-y-4" @submit="handleSubmit">
         <div class="rounded-md shadow-sm space-y-4">
           <div>
             <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
@@ -139,6 +139,13 @@ const handleSubmit = async (e) => {
               :class="{ 'border-red-500': errors.confirmPassword }" />
             <p v-if="errors.confirmPassword" class="mt-1 text-sm text-red-600">{{ errors.confirmPassword }}</p>
           </div>
+        </div>
+
+        <div class="text-right text-sm ">
+          Already have an account?
+          <router-link to="/auth/login" class="text-indigo-600 hover:text-indigo-500">
+            Login
+          </router-link>
         </div>
 
         <div>

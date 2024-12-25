@@ -25,3 +25,20 @@ export const loginUser = async (credentials) => {
     }
   }
 }
+
+export const getUserInfo = async () => {
+  try {
+    const token = localStorage.getItem('token')
+    const { data } = await axios.get(`${API_BASE_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    return { data, error: null }
+  } catch (error) {
+    return {
+      data: null,
+      error: error.response?.data?.detail || 'Failed to fetch user info',
+    }
+  }
+}
