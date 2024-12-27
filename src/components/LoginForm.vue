@@ -1,9 +1,19 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { loginUser } from '../services/api'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/user'
 
 const router = useRouter()
+const userStore = useUserStore()
+
+onMounted(() => {
+  userStore.fetchUser()
+  if (userStore.isLoggedIn) {
+    router.push('/')
+  }
+})
+
 const formData = ref({
   username: '',
   password: ''
@@ -37,8 +47,7 @@ const handleSubmit = async (e) => {
         password: ''
       }
       successMessage.value = 'Login successful!'
-      // Store token or user data in localStorage/store
-      localStorage.setItem('token', data.access_token)
+      userStore.login(data.access_token)
       router.push('/')
     }
     isLoading.value = false
