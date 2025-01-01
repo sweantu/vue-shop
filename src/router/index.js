@@ -1,36 +1,46 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DefaultLayout from '../layouts/DefaultLayout.vue'
-import AuthLayout from '../layouts/AuthLayout.vue'
-import HomePage from '../views/HomePage.vue'
-import LoginForm from '../components/LoginForm.vue'
-import RegisterForm from '../components/RegisterForm.vue'
 const router = createRouter({
   history: createWebHistory(),
   routes: [
     {
       path: '/',
-      component: DefaultLayout,
+      component: () => import('../layouts/DefaultLayout.vue'),
       children: [
         {
           path: '',
           name: 'home',
-          component: HomePage,
+          component: () => import('../views/HomePage.vue'),
+        },
+        {
+          path: 'account',
+          name: 'account',
+          component: () => import('../views/AccountView.vue'),
+        },
+        {
+          path: 'orders',
+          name: 'orders',
+          // component: () => import('../views/OrdersView.vue'),
+        },
+        {
+          path: 'transactions',
+          name: 'transactions',
+          // component: () => import('../views/TransactionsView.vue'),
         },
       ],
     },
     {
       path: '/auth',
-      component: AuthLayout,
+      component: () => import('../layouts/AuthLayout.vue'),
       children: [
         {
           path: 'login',
           name: 'login',
-          component: LoginForm,
+          component: () => import('../components/LoginForm.vue'),
         },
         {
           path: 'register',
           name: 'register',
-          component: RegisterForm,
+          component: () => import('../components/RegisterForm.vue'),
         },
       ],
     },

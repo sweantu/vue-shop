@@ -29,7 +29,7 @@ const handleLogout = () => {
               <button class="flex items-center gap-2">
                 <img :src="userStore.user?.avatar || '/src/assets/default-avatar.png'" alt="User avatar"
                   class="w-8 h-8 rounded-full">
-                <span class="text-gray-600">{{ userStore.user?.username || 'User' }}</span>
+                <span class="text-gray-600">{{ userStore.user?.name || 'Name' }}</span>
               </button>
 
               <div
