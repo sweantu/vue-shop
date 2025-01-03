@@ -2,6 +2,12 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
+import {
+  UserCircleIcon,
+  ShoppingBagIcon,
+  ArrowLeftStartOnRectangleIcon,
+  ShoppingCartIcon
+} from '@heroicons/vue/24/outline'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -36,15 +42,18 @@ const handleLogout = () => {
                 class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300">
                 <div class="py-1">
                   <router-link to="/account"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
+                    <UserCircleIcon class="mr-3 h-5 w-5 text-gray-400" />
                     Account Settings
                   </router-link>
                   <router-link to="/orders"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
+                    class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
+                    <ShoppingBagIcon class="mr-3 h-5 w-5 text-gray-400" />
                     Orders
                   </router-link>
                   <button @click="handleLogout"
-                    class="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
+                    class="flex w-full items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
+                    <ArrowLeftStartOnRectangleIcon class="mr-3 h-5 w-5 text-gray-400" />
                     Logout
                   </button>
                 </div>
@@ -52,7 +61,10 @@ const handleLogout = () => {
             </div>
           </template>
           <router-link v-else to="/auth/login" class="text-gray-600 hover:text-gray-900">Login</router-link>
-          <router-link to="/cart" class="text-gray-600 hover:text-gray-900">Cart (0)</router-link>
+          <router-link to="/cart" class="text-gray-600 hover:text-gray-900 flex items-center">
+            <ShoppingCartIcon class="h-6 w-6" />
+            <span class="ml-1">(0)</span>
+          </router-link>
         </div>
       </div>
     </nav>

@@ -2,15 +2,20 @@
 import { computed } from 'vue'
 import { useUserStore } from '../stores/user'
 import { useRoute } from 'vue-router'
+import {
+  UserCircleIcon,
+  ShoppingBagIcon,
+  CreditCardIcon
+} from '@heroicons/vue/24/outline'
 
 const userStore = useUserStore()
 const route = useRoute()
 const user = computed(() => userStore.user)
 
 const navigation = [
-  { name: 'Account Settings', href: '/account', icon: 'UserCircle' },
-  { name: 'Orders', href: '/account/orders', icon: 'ShoppingBag' },
-  { name: 'Transactions', href: '/account/transactions', icon: 'CreditCard' }
+  { name: 'Account Settings', href: '/account', icon: UserCircleIcon },
+  { name: 'Orders', href: '/account/orders', icon: ShoppingBagIcon },
+  { name: 'Transactions', href: '/account/transactions', icon: CreditCardIcon }
 ]
 
 const currentPath = computed(() => route.path)
@@ -29,6 +34,8 @@ const currentPath = computed(() => route.path)
               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900',
             'group flex items-center px-3 py-2 text-sm font-medium rounded-md'
           ]">
+            <component :is="item.icon" class="mr-3 h-5 w-5 flex-shrink-0"
+              :class="currentPath === item.href ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-500'" />
             <span class="truncate">{{ item.name }}</span>
           </router-link>
         </nav>
