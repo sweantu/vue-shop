@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { registerUser } from '../services/api'
-
+import { userService } from '@/services/userService'
 const formData = ref({
   username: '',
   password: '',
@@ -38,7 +37,7 @@ const handleSubmit = async (e) => {
 
   if (Object.keys(errors.value).length === 0) {
     isLoading.value = true
-    const { error } = await registerUser(formData.value)
+    const { error } = await userService.register(formData.value)
 
     if (error) {
       errors.value.submit = error
