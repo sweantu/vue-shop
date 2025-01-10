@@ -28,4 +28,13 @@ export const userService = {
       return handleApiError(error)
     }
   },
+
+  async updateProfile(userData) {
+    try {
+      const { data } = await apiClient.put('/users/me', userData)
+      return { data, error: null }
+    } catch (error) {
+      return handleApiError(error)
+    }
+  },
 }
