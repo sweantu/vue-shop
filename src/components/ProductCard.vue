@@ -1,4 +1,8 @@
 <script setup>
+import { useCartStore } from '../stores/cart'
+
+const cartStore = useCartStore()
+
 defineProps({
   product: {
     type: Object,
@@ -29,7 +33,7 @@ defineProps({
       </div>
     </router-link>
     <button class="mt-4 w-full bg-indigo-600 text-white py-2 px-4 rounded hover:bg-indigo-700 disabled:bg-gray-400"
-      :disabled="product.stock === 0">
+      :disabled="product.stock === 0" @click="cartStore.addItem(product.id)">
       {{ product.stock === 0 ? 'Out of Stock' : 'Add to Cart' }}
     </button>
   </div>

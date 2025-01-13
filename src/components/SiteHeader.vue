@@ -2,6 +2,7 @@
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../stores/user'
+import { useCartStore } from '../stores/cart'
 import {
   UserCircleIcon,
   ShoppingBagIcon,
@@ -11,9 +12,11 @@ import {
 
 const router = useRouter()
 const userStore = useUserStore()
+const cartStore = useCartStore()
 
 onMounted(() => {
   userStore.fetchUser()
+  cartStore.fetchCart()
 })
 
 const handleLogout = () => {
@@ -39,7 +42,7 @@ const handleLogout = () => {
               </button>
 
               <div
-                class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300">
+                class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
                 <div class="py-1">
                   <router-link to="/manage/account-settings"
                     class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
@@ -63,7 +66,7 @@ const handleLogout = () => {
           <router-link v-else to="/auth/login" class="text-gray-600 hover:text-gray-900">Login</router-link>
           <router-link to="/cart" class="text-gray-600 hover:text-gray-900 flex items-center">
             <ShoppingCartIcon class="h-6 w-6" />
-            <span class="ml-1">(0)</span>
+            <span class="ml-1">({{ cartStore.totalQuantity }})</span>
           </router-link>
         </div>
       </div>
