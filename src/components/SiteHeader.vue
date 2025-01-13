@@ -44,6 +44,12 @@ const handleLogout = () => {
               <div
                 class="absolute left-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 opacity-0 invisible group-hover:visible group-hover:opacity-100 transition-all duration-300 z-50">
                 <div class="py-1">
+                  <div class="px-4 py-2 text-sm text-gray-700 border-t border-gray-100">
+                    Balance: ${{ userStore.user?.balance || '0.00' }}
+                    <router-link to="/topup" class="block mt-1 text-indigo-600 hover:text-indigo-500">
+                      Top up
+                    </router-link>
+                  </div>
                   <router-link to="/manage/account-settings"
                     class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200">
                     <UserCircleIcon class="mr-3 h-5 w-5 text-gray-400" />
