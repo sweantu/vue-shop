@@ -39,12 +39,12 @@ const router = createRouter({
             {
               path: 'orders',
               name: 'orders',
-              // component: () => import('../views/OrdersView.vue'),
+              // component: () => import('../components/OrdersView.vue'),
             },
             {
               path: 'transactions',
               name: 'transactions',
-              // component: () => import('../views/TransactionsView.vue'),
+              component: () => import('../views/TransactionsView.vue'),
             },
           ],
         },
