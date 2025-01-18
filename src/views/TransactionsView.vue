@@ -1,10 +1,11 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import TablePagination from '../components/common/TablePagination.vue'
+import TablePagination from '@/components/common/TablePagination.vue'
 import { formatDate } from '../utils/dateFormat'
 import { transactionService } from '../services/transactionService'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/vue/24/solid'
-
+import TransactionForm from '@/components/TransactionForm.vue'
+import DialogModal from '@/components/common/DialogModal.vue'
 
 const transactions = ref([])
 const isLoading = ref(false)
@@ -104,6 +105,49 @@ watch([filters], () => {
   fetchData()
 }, { deep: true })
 
+// Add new refs for transaction modal
+const isTransactionModalOpen = ref(false)
+const transactionType = ref('deposit') // 'deposit' or 'withdraw'
+const transactionForm = ref({
+  amount: '',
+  description: ''
+})
+const isSubmitting = ref(false)
+const formError = ref(null)
+
+const openTransactionModal = (type) => {
+  transactionType.value = type
+  transactionForm.value = { amount: '', description: '' }
+  formError.value = null
+  isTransactionModalOpen.value = true
+}
+
+const closeTransactionModal = () => {
+  isTransactionModalOpen.value = false
+}
+
+const handleTransactionSubmit = async (formData) => {
+  if (!formData.amount || parseFloat(formData.amount) <= 0) {
+    formError.value = 'Please enter a valid amount'
+    return
+  }
+
+  isSubmitting.value = true
+  formError.value = null
+
+  const { error } = await transactionService[transactionType.value](formData)
+
+  if (error) {
+    formError.value = error
+    isSubmitting.value = false
+    return
+  }
+
+  isSubmitting.value = false
+  closeTransactionModal()
+  fetchData()
+}
+
 onMounted(() => {
   fetchData()
 })
@@ -117,6 +161,16 @@ onMounted(() => {
         <p class="mt-2 text-sm text-gray-700">
           Showing {{ transactions.length }} of {{ pagination.total }} transactions
         </p>
+      </div>
+      <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none space-x-4">
+        <button @click="openTransactionModal('deposit')"
+          class="inline-flex items-center justify-center rounded-md border border-transparent bg-green-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 sm:w-auto">
+          Deposit
+        </button>
+        <button @click="openTransactionModal('withdraw')"
+          class="inline-flex items-center justify-center rounded-md border border-transparent bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 sm:w-auto">
+          Withdraw
+        </button>
       </div>
     </div>
 
@@ -234,5 +288,13 @@ onMounted(() => {
     <!-- Pagination -->
     <TablePagination :total="pagination.total" :current-page="pagination.page" :page-size="pagination.size"
       :total-pages="pagination.pages" @page-change="handlePageChange" />
+
+    <!-- Transaction Modal -->
+    <DialogModal :show="isTransactionModalOpen"
+      :title="transactionType.charAt(0).toUpperCase() + transactionType.slice(1)" @close="closeTransactionModal">
+      <TransactionForm :type="transactionType" :is-submitting="isSubmitting" :error="formError"
+        @submit="handleTransactionSubmit" @cancel="closeTransactionModal" />
+    </DialogModal>
+
   </div>
 </template>
