@@ -3,8 +3,10 @@ import { onMounted } from 'vue'
 import { useCartStore } from '../stores/cart'
 import { useRouter } from 'vue-router'
 import { TrashIcon } from '@heroicons/vue/24/outline'
+import { useUserStore } from '../stores/user'
 
 const cartStore = useCartStore()
+const userStore = useUserStore()
 const router = useRouter()
 
 onMounted(async () => {
@@ -98,7 +100,21 @@ const checkout = () => {
                 <p class="text-base font-medium text-gray-900">${{ cartStore.formattedTotal }}</p>
               </div>
             </div>
-
+            <div class="border-t border-gray-200 pt-4">
+              <div class="flex items-center justify-between">
+                <p class="text-base text-gray-900">Your Balance</p>
+                <p class="text-base text-gray-900">${{ userStore.user?.balance || '0.00' }}</p>
+              </div>
+              <div v-if="parseFloat(cartStore.formattedTotal) > parseFloat(userStore.user?.balance || 0)" class="mt-2">
+                <p class="text-sm text-red-600">
+                  You need ${{ (cartStore.formattedTotal - (userStore.user?.balance || 0)).toFixed(2) }} more to
+                  complete this purchase
+                </p>
+                <router-link to="/topup" class="text-sm text-indigo-600 hover:text-indigo-500">
+                  Top up your balance
+                </router-link>
+              </div>
+            </div>
             <button @click="checkout"
               class="w-full bg-indigo-600 text-white py-3 px-4 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors">
               Proceed to Checkout
