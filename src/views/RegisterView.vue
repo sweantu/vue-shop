@@ -142,7 +142,7 @@ const handleSubmit = async (e) => {
 
         <div class="text-right text-sm ">
           Already have an account?
-          <router-link to="/auth/login" class="text-indigo-600 hover:text-indigo-500">
+          <router-link to="/login" class="text-indigo-600 hover:text-indigo-500">
             Login
           </router-link>
         </div>

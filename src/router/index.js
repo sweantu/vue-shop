@@ -34,7 +34,7 @@ const router = createRouter({
             {
               path: 'account-settings',
               name: 'account-settings',
-              component: () => import('../components/AccountSettings.vue'),
+              component: () => import('../views/AccountSettingsView.vue'),
             },
             {
               path: 'orders',
@@ -51,20 +51,12 @@ const router = createRouter({
       ],
     },
     {
-      path: '/auth',
-      component: () => import('../layouts/AuthLayout.vue'),
-      children: [
-        {
-          path: 'login',
-          name: 'login',
-          component: () => import('../components/LoginForm.vue'),
-        },
-        {
-          path: 'register',
-          name: 'register',
-          component: () => import('../components/RegisterForm.vue'),
-        },
-      ],
+      path: '/login',
+      component: () => import('../views/LoginView.vue'),
+    },
+    {
+      path: '/register',
+      component: () => import('../views/RegisterView.vue'),
     },
   ],
 })

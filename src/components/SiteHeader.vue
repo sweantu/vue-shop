@@ -21,7 +21,7 @@ onMounted(() => {
 
 const handleLogout = () => {
   userStore.logout()
-  router.push('/auth/login')
+  router.push('/login')
 }
 </script>
 
@@ -69,7 +69,7 @@ const handleLogout = () => {
               </div>
             </div>
           </template>
-          <router-link v-else to="/auth/login" class="text-gray-600 hover:text-gray-900">Login</router-link>
+          <router-link v-else to="/login" class="text-gray-600 hover:text-gray-900">Login</router-link>
           <router-link to="/cart" class="text-gray-600 hover:text-gray-900 flex items-center">
             <ShoppingCartIcon class="h-6 w-6" />
             <span class="ml-1">({{ cartStore.totalQuantity }})</span>
