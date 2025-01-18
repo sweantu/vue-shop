@@ -3,12 +3,12 @@ import { ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import ProductCard from '../components/ProductCard.vue'
 import { productService } from '../services/productService'
+import TablePagination from '@/components/common/TablePagination.vue'
 
 const route = useRoute()
 const router = useRouter()
 
 const products = ref([])
-const totalPages = ref(0)
 const isLoading = ref(false)
 
 const filters = ref({
@@ -22,18 +22,30 @@ const filters = ref({
 
 const categories = ['accessories', 'books', 'electronics'] // Add all your categories
 
+const pagination = ref({
+  total: 0,
+  page: 1,
+  size: 10,
+  pages: 1
+})
+
 const fetchProducts = async () => {
   isLoading.value = true
   const { data, error } = await productService.getProducts(filters.value)
   if (!error) {
     products.value = data.items
-    totalPages.value = data.pages
+    pagination.value = {
+      total: data.total,
+      page: data.page,
+      size: data.size,
+      pages: data.pages
+    }
   }
   isLoading.value = false
 }
 
 const updateFilters = (newFilters) => {
-  filters.value = { ...filters.value, ...newFilters, page: 1 }
+  filters.value = { ...filters.value, ...newFilters, page: newFilters.page || 1 }
   router.push({ query: filters.value })
 }
 
@@ -48,6 +60,10 @@ watch(() => route.query, () => {
   }
   fetchProducts()
 }, { immediate: true })
+
+const handlePageChange = (newPage) => {
+  updateFilters({ page: newPage })
+}
 </script>
 
 <template>
@@ -90,14 +106,9 @@ watch(() => route.query, () => {
       <div v-else class="text-center py-12">
         Loading...
       </div>
-
       <!-- Pagination -->
-      <div class="mt-8 flex justify-center space-x-2">
-        <button v-for="page in totalPages" :key="page" @click="updateFilters({ page })" class="px-4 py-2 rounded-md"
-          :class="filters.page === page ? 'bg-indigo-600 text-white' : 'bg-gray-200'">
-          {{ page }}
-        </button>
-      </div>
+      <TablePagination :total="pagination.total" :current-page="pagination.page" :page-size="pagination.size"
+        :total-pages="pagination.pages" @page-change="handlePageChange" />
     </div>
   </main>
 </template>
