@@ -263,7 +263,7 @@ onMounted(() => {
                     {{ transaction.type.charAt(0).toUpperCase() + transaction.type.slice(1) }}
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm font-medium" :class="getTypeColor(transaction.type)">
-                    {{ transaction.type === 'withdraw' ? '-' : '+' }}${{ transaction.amount }}
+                    {{ ['withdraw', 'payment'].includes(transaction.type) ? '-' : '+' }}${{ transaction.amount }}
                   </td>
                   <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-900">
                     ${{ transaction.balance }}
