@@ -46,7 +46,7 @@ const handleLogout = () => {
                 <div class="py-1">
                   <div class="px-4 py-2 text-sm text-gray-700 border-t border-gray-100">
                     Balance: ${{ userStore.user?.balance || '0.00' }}
-                    <router-link to="/topup" class="block mt-1 text-indigo-600 hover:text-indigo-500">
+                    <router-link to="/manage/transactions" class="block mt-1 text-indigo-600 hover:text-indigo-500">
                       Top up
                     </router-link>
                   </div>
