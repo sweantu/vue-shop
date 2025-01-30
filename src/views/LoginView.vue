@@ -53,6 +53,15 @@ const handleSubmit = async (e) => {
     isLoading.value = false
   }
 }
+
+const handleGoogleLogin = async () => {
+  const { data, error } = await userService.googleOAuthLogin()
+  if (error) {
+    console.error('Google OAuth error:', error)
+  } else {
+    window.location.href = data.auth_url
+  }
+}
 </script>
 
 <template>
@@ -101,14 +110,6 @@ const handleSubmit = async (e) => {
           </div>
         </div>
 
-        <div class="text-right text-sm">
-          Don't have an account?
-          <router-link to="/register" class=" text-indigo-600 hover:text-indigo-500">
-            Register
-          </router-link>
-        </div>
-
-
         <div>
           <button type="submit" :disabled="isLoading"
             class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:bg-indigo-400">
@@ -117,6 +118,32 @@ const handleSubmit = async (e) => {
           </button>
         </div>
       </form>
+
+      <!-- Divider -->
+      <div class="relative my-6">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t border-gray-300"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-2 bg-white text-gray-500">Or continue with</span>
+        </div>
+      </div>
+
+      <!-- Google OAuth Button -->
+      <div>
+        <button @click="handleGoogleLogin"
+          class="w-full flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          <img src="/src/assets/Google-sso.png" alt="Sign in with Google" class="h-5 w-5 mr-2" />
+          Sign in with Google
+        </button>
+      </div>
+
+      <div class="text-right text-sm">
+        Don't have an account?
+        <router-link to="/register" class="text-indigo-600 hover:text-indigo-500">
+          Register
+        </router-link>
+      </div>
     </div>
   </div>
 </template>
